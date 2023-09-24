@@ -9,6 +9,12 @@ const theme = {
         background: '#FAFAFA',
         card: '#FFFFFF',
         success: '#CE2929'
+    },
+
+    fonts: {
+        regular: 'OpenSans_400Regular',
+        medium: 'OpenSans_500Medium',
+        bold: 'OpenSans_700Bold'
     }
 }
 
