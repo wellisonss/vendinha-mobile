@@ -5,6 +5,7 @@ import { useFonts, OpenSans_700Bold, OpenSans_400Regular, OpenSans_500Medium } f
 import { View } from 'react-native'; // Importe o componente View da biblioteca react-native
 import theme from "./src/global/styles/theme";
 import { Dashboard } from './src/screens/Dashboard';
+import { ClientPage } from './src/screens/ClientPage';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,7 +28,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <Dashboard />
+        <ClientPage />
       </View>
     </ThemeProvider>
   );

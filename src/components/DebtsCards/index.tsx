@@ -14,21 +14,33 @@ import {
     TotalValue
  } from "./styles";
 
-export function DebtsCard(){
+ interface Data {
+    title: string;
+    amount: string;
+    total: string
+ }
+
+ interface Props {
+    data: Data
+ }
+
+export function DebtsCard({
+    data
+}: Props){
     return (
         <Container style={[styles.elevation]}>
             <Header>
-                <Title>Dividas em aberto</Title>
+                <Title>{data.title}</Title>
             </Header>
 
             <Content>
                 <Amount>
                     <AmountDescription>Qtde:</AmountDescription>
-                    <AmountValue>32</AmountValue>
+                    <AmountValue>{data.amount}</AmountValue>
                 </Amount>
                 <Total>
                     <TotalDescription>Valor total:</TotalDescription>
-                    <TotalValue>R$ 43.243,09</TotalValue>
+                    <TotalValue>R$ {data.total}</TotalValue>
                 </Total>
             </Content>
         </Container>

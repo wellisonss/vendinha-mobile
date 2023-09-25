@@ -24,4 +24,4 @@ export const HeaderText = styled.Text`
     font-family: ${({ theme }: { theme: DefaultTheme }) => theme.fonts.bold};
     `;
 
-export const DebtsCards = styled.ScrollView``
+export const ClientCards = styled.ScrollView``
