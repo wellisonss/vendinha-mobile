@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 
 import { 
     Container,
@@ -15,7 +16,7 @@ import {
 
 export function DebtsCard(){
     return (
-        <Container>
+        <Container style={[styles.elevation]}>
             <Header>
                 <Title>Dividas em aberto</Title>
             </Header>
@@ -32,4 +33,13 @@ export function DebtsCard(){
             </Content>
         </Container>
     )
-}
+};
+
+// foi utilizada a propriedade elevation de StyleSheet uma vez que não consegui 
+// algo semelhante com o styled-components e optei por nao fazer uso de uma outra biblioteca
+const styles = StyleSheet.create({
+    elevation: {
+        elevation: 2,
+    },
+  });
+  

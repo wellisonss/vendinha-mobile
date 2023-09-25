@@ -1,11 +1,13 @@
 import styled, { DefaultTheme } from 'styled-components/native';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 export const Container = styled.View`
 background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.card}; 
 border-radius: 10px; 
 padding: 20px;
 margin: 10px;
+border-color: rgba(221, 221, 221, 0.4);
+border-bottom-width: 3px;
 `
 export const Header = styled.View`
 margin-bottom: ${RFValue(10)}px;;
