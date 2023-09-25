@@ -8,7 +8,9 @@ const theme = {
 
         background: '#FAFAFA',
         card: '#FFFFFF',
-        success: '#CE2929'
+        success: '#CE2929',
+
+        divider: '#E8E8E8'
     },
 
     fonts: {

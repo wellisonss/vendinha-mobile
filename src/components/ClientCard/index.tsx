@@ -49,7 +49,7 @@ export function ClientCard({
             </Content>
             <Footer>
                 <DebtDescription>Valor da dívida:</DebtDescription>
-                <DebtValue>{data.debt}</DebtValue>
+                <DebtValue>R$ {data.debt}</DebtValue>
             </Footer>
         </Container>
     )

@@ -32,6 +32,10 @@ justify-content: start;
 export const Footer = styled.View`
 flex-direction: row;
 justify-content: space-between;
+border-top-width: 1px;
+margin-top: ${RFValue(10)}px;
+padding-top: ${RFValue(5)}px;
+border-top-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.divider};;
 `
 export const CPFDescription = styled.Text`
     font-size: 14px;
