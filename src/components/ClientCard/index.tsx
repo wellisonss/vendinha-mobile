@@ -17,7 +17,7 @@ import {
     DebtValue
  } from "./styles";
 
- interface Data {
+ export interface ClientCardProps {
     name: string;
     cpf: string;
     email: string;
@@ -25,7 +25,7 @@ import {
  }
 
  interface Props {
-    data: Data
+    data: ClientCardProps
  }
 
 export function ClientCard({
