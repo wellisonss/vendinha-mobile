@@ -6,6 +6,8 @@ import { View } from 'react-native'; // Importe o componente View da biblioteca 
 import theme from "./src/global/styles/theme";
 import { Dashboard } from './src/screens/Dashboard';
 import { ClientPage } from './src/screens/ClientPage';
+import { ClientRegister } from './src/screens/ClientRegister';
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,7 +30,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <ClientPage />
+        <ClientRegister />
       </View>
     </ThemeProvider>
   );
