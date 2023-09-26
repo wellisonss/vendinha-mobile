@@ -4,10 +4,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts, OpenSans_700Bold, OpenSans_400Regular, OpenSans_500Medium } from '@expo-google-fonts/open-sans';
 import { View } from 'react-native'; // Importe o componente View da biblioteca react-native
 import theme from "./src/global/styles/theme";
-import { Dashboard } from './src/screens/Dashboard';
-import { ClientPage } from './src/screens/ClientPage';
-import { ClientRegister } from './src/screens/ClientRegister';
 
+import { AppRoutes } from './src/routes/app.routes' 
+
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +30,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <ClientPage />
+        <NavigationContainer>
+          <AppRoutes />
+        </NavigationContainer>
       </View>
     </ThemeProvider>
   );
