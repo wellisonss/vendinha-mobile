@@ -14,19 +14,13 @@ export interface DataListProps extends ClientCardProps {
 }
 
 type Client = {
-    d: {
-      results: {
         id: number;
         nome: string;
         cpf: string;
         email: string;
-      }[];
-    };
   };
 
   type Debts = {
-    d: {
-      results: {
         cliente: Client;
         id: number;
         ultimaAlteracao: string;
@@ -34,22 +28,13 @@ type Client = {
         valor: number;
         dataPagamento: string;
         descricao: string;
-      }[];
-    };
   };
 
 export function ClientPage(){
 
-    const { data: clients } = useFetch<Client>('api/Cliente/GetOData?%24count=true');
+    const { data: clients, isFetching: isFetchingClients } = useFetch<Client[]>('api/Cliente/GetOData?%24count=true');
 
-    const { data: debtsClients } = useFetch<Debts>('api/Divida/GetOData?%24count=true')
-
-
-    const resultsClients = clients?.d?.results || [];
-
-    const resultsDebts = debtsClients?.d?.results || [];
-
-    console.log(resultsDebts);
+    const { data: debtsClients, isFetching: isFetchingDebts } = useFetch<Debts[]>('api/Divida/GetOData?%24count=true');
 
     const [clientRegisterModalOpen, setClientRegisterModalOpen] = useState(false);
 
@@ -61,15 +46,28 @@ export function ClientPage(){
         setClientRegisterModalOpen(true)
     }
 
- // Mapeie os resultados da API para o formato de DataListProps e armazene em 'data'
- const data: DataListProps[] = resultsClients.map((result) => ({
-    id: result.id.toString(),
-    name: result.nome,
-    cpf: result.cpf,
-    email: result.email,
-    debt: "44",
-  }));
+    let data: DataListProps[] = [];
 
+    if (clients && debtsClients) {
+      data = clients.map((result) => {
+        const clientId = result.id;
+        const maxDebt = debtsClients
+          .filter((debt) => debt.cliente.id === clientId)
+          .reduce((max, debt) => {
+            const currentDebt = debt.valor;
+            return !isNaN(currentDebt) && currentDebt > max ? currentDebt : max;
+          }, 0);
+      
+        return {
+          id: clientId.toString(),
+          name: result.nome,
+          cpf: result.cpf,
+          email: result.email,
+          debt: maxDebt.toString(),
+        };
+      });
+    }
+    
     return (
         <Container>
             <Header>
