@@ -1,16 +1,49 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons'
+import { useTheme } from 'styled-components'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ClientPage } from '../screens/ClientPage';
 import { Dashboard } from '../screens/Dashboard'
+import theme from '../global/styles/theme';
 
-const Tab = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 export function AppRoutes(){
     return(
-        <Tab.Navigator>
-            <Tab.Screen name="Home" component={Dashboard} />
-            <Tab.Screen name="Clientes" component={ClientPage} />
-        </Tab.Navigator>
+        <Navigator
+            screenOptions={{
+                tabBarActiveTintColor: theme.colors.primary,
+                tabBarInactiveTintColor: theme.colors.divider,
+
+            }}>
+            <Screen
+                name="Home"
+                component={Dashboard}
+                options={{ 
+                    headerShown: false,
+                    tabBarIcon: (({ size, color }) => (
+                        <Feather 
+                            name='home'
+                            size={size}
+                            color={color}
+                        />
+                    ))
+                 }}
+            />
+            <Screen
+                name="Clientes"
+                component={ClientPage} 
+                options={{ 
+                    headerShown: false,
+                    tabBarIcon: (({ size, color }) => (
+                        <Feather 
+                            name='user'
+                            size={size}
+                            color={color}
+                        />
+                    ))
+                }}
+            />
+        </Navigator>
     );
 }
