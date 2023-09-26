@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { Modal } from 'react-native'
+
 import { Container, Header, HeaderText, ClientCards, ClientCardsList } from './styles';
 import { ClientCard, ClientCardProps } from "../../components/ClientCard";
 import { FabButton } from "../../components/Form/FabButton";
+
+import { ClientRegister } from '../ClientRegister'
 
 export interface DataListProps extends ClientCardProps {
     id: string;
 }
 
 export function ClientPage(){
+
+    const [clientRegisterModalOpen, setClientRegisterModalOpen] = useState(false);
+
+    function handleOpenClientRegisterModal(){
+        setClientRegisterModalOpen(false)
+    }
+
+    function handleCloseClientRegisterModal(){
+        setClientRegisterModalOpen(true)
+    }
 
     const data: DataListProps[] = [{
         id: '1',
@@ -57,11 +71,15 @@ export function ClientPage(){
                 data={data}
                 keyExtractor={(item: DataListProps) => item.id}
                 renderItem={({ item }: { item: DataListProps }) => <ClientCard data={item}
-                />}                />
+                />}
+                />
              
             </ClientCards>
             <StatusBar style="auto" />
-            <FabButton />
+            <FabButton onPress={handleCloseClientRegisterModal}/>
+            <Modal visible={clientRegisterModalOpen}>
+                <ClientRegister closeClientRegister={handleOpenClientRegisterModal}/>
+            </Modal>
         </Container>
     )
 }
