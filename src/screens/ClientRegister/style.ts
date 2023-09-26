@@ -8,7 +8,6 @@ background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.backgro
 
 export const Header = styled.View`
 background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.background}; 
-width: 100%;
 height: ${RFPercentage(10)}px;
 
 align-items: center;
@@ -24,8 +23,8 @@ font-family: ${({ theme }: { theme: DefaultTheme }) => theme.fonts.bold};
 
 export const Form = styled.View`
 flex: 1;
-width: 100%;
 padding: 16px;
+justify-content: space-between;
 `;
 
 export const ColunmContainer = styled.View`
@@ -35,4 +34,8 @@ width: 48%;
 export const RowContainer = styled.View`
 flex-direction: row; 
 justify-content: space-between;
+`;
+
+
+export const Fields = styled.View`
 `;

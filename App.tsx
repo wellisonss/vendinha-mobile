@@ -30,7 +30,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <ClientRegister />
+        <ClientPage />
       </View>
     </ThemeProvider>
   );

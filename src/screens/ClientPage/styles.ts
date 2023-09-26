@@ -14,8 +14,9 @@ export const Header = styled.View`
     width: 100%;
     height: ${RFPercentage(12)}px;
 
-    justify-content: center;
     align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 16px;
 
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.background}; 
     `;

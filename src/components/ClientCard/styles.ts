@@ -5,7 +5,7 @@ export const Container = styled.View`
 background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.card}; 
 border-radius: 10px; 
 padding: 20px;
-margin: 10px;
+margin-bottom: 20px;
 border-color: rgba(221, 221, 221, 0.4);
 border-bottom-width: 3px;
 `
