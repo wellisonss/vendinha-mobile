@@ -18,6 +18,7 @@ import {
  } from "./styles";
 
  export interface ClientCardProps {
+    id: string;
     name: string;
     cpf: string;
     email: string;

@@ -1,5 +1,9 @@
 import styled, { DefaultTheme } from 'styled-components/native';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { FlatList } from 'react-native';
+
+import { DataListProps } from '.';
+
 
 export const Container = styled.View`
 flex: 1;
@@ -60,3 +64,13 @@ color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary_text};
 
 `;
 
+export const DebtsClientCardsList = styled(
+    FlatList as new () => FlatList<DataListProps>
+    ).attrs({
+    showsVerticalScrollIndicator: false
+})``;
+
+export const ClientCards = styled.View`
+flex: 1;
+padding: 16px 0;
+`;
