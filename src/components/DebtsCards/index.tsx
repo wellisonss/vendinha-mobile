@@ -17,7 +17,7 @@ import {
  interface Data {
     title: string;
     amount: string;
-    total: string
+    total: string;
  }
 
  interface Props {

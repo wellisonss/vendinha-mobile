@@ -12,17 +12,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields } from './styles'
 
 interface Props {
-    closeDebtRegister: () => void
+    clienteId: string | undefined,
+    closeDebtRegister: () => void,
 }
 
 const schema = Yup.object().shape({
-    nome: Yup.string().required('Nome é obrigatório'),
-    email: Yup.string().required('Email é obrigatório'),
-    cpf: Yup.string().required('CPF é obrigatório'),
-    nascimento: Yup.string().required('Nascimento é obrigatório'),
+    descricao: Yup.string().required('Descrição é obrigatório'),
+    valor: Yup.string().required('CPF é obrigatório'),
+    dataPagamento: Yup.string(), // campo nao obrigatorio
 })
 
-export function DebtsRegister({ closeDebtRegister }: Props){
+export function DebtsRegister({ closeDebtRegister, clienteId }: Props){
+
+    console.log("clienteId", clienteId);
 
     const {
         control,
@@ -41,9 +43,9 @@ export function DebtsRegister({ closeDebtRegister }: Props){
             // getValues obtem os valores do formulário
             const formValues = getValues();
             // Verifique se 'dataNascimento' está presente nos formValues
-            if (formValues.nascimento) {
+            if (formValues.dataPagamento) {
                 // Separa a data em partes dia, mês e ano
-                const parts = formValues.nascimento.split('/');
+                const parts = formValues.dataPagamento.split('/');
                 
                 // verifica se que existem três elementos separados por "/"
                 if (parts.length === 3) {
@@ -54,41 +56,33 @@ export function DebtsRegister({ closeDebtRegister }: Props){
                 // Verifica se os valores são numéricos válidos
                 if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
                     // Cria uma data no formato ISO que é passado pela documentação da API
-                    formValues.nascimento = new Date(year, month - 1, day).toISOString();
+                    formValues.dataPagamento = new Date(year, month - 1, day).toISOString();
                 }
                 }
             }
 
-            // Remove caracteres não numéricos do CPF
-            formValues.cpf = formValues.cpf.replace(/\D/g, '');
-
-            await api.post('/api/Cliente', {
-                nome: formValues.nome,
-                cpf: formValues.cpf,
-                email: formValues.email,
-                dataNascimento: formValues.nascimento
+            await api.post('/api/Divida', {
+                descricao: formValues.descricao,
+                valor: formValues.valor,
+                dataPagamento: formValues.dataPagamento,
+                clienteId: clienteId 
             });
+
+
 
             reset();
 
-            Alert.alert('Novo cliente', 'Cliente cadastrado com sucesso');
+            Alert.alert('Nova Dívida', 'Dívida cadastrado com sucesso');
             
         } catch (error) {
             console.log(error);
-            Alert.alert('Ops', 'Cliente não cadastrado');
+            Alert.alert('Ops', 'Dívida não cadastrada');
         }
         
     }
 
-    // Função para aplicar a máscara no campo de CPF
-    const applyCPFFormat = (value: string) => {
-        return value
-            .replace(/\D/g, "")
-            .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    };
-
-    // Função para aplicar a máscara no campo de Nascimento
-    const applyNascimentoFormat = (value: string) => {
+    // Função para aplicar a máscara no campo de dataPagamento
+    const applyPagamentoFormat = (value: string) => {
         return value
             .replace(/\D/g, "")
             .replace(/(\d{2})(\d{2})(\d{4})/, "$1/$2/$3");
@@ -98,57 +92,45 @@ export function DebtsRegister({ closeDebtRegister }: Props){
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <Container>
                 <Header>
-                    <Title>Cliente</Title>
+                    <Title>Nova dívida</Title>
                 </Header>
 
                 <Form>
                     <Fields>
                         <InputForm
-                            name="nome" 
+                            name="descricao" 
                             control={control}
-                            placeholder="Nome do cliente"
+                            placeholder="descrição"
                             autoCapitalize="words"
                             autoCorrect={false}
-                            error={errors.nome?.message} 
+                            error={errors.descricao?.message} 
 
                         />
                         <RowContainer>
-                            <ColunmContainer>
+                           <ColunmContainer>
                                 <InputForm
-                                    name="cpf" 
+                                    name="dataPagamento" 
                                     control={control}
                                     placeholder="Somente números"
                                     keyboardType="numeric"
                                     onChangeText={(text) => {
-                                        const formattedValue = applyCPFFormat(text);
-                                        setValue("cpf", formattedValue);
+                                        const formattedValue = applyPagamentoFormat(text);
+                                        setValue("dataPagamento", formattedValue);
                                     }}
-                                    maxLength={14} 
-                                    error={errors.cpf?.message}
+                                    maxLength={10} // Nascimento tem 10 caracteres com a máscara
+                                    error={errors.dataPagamento?.message} 
                                 />
                             </ColunmContainer>
                             <ColunmContainer>
                                 <InputForm
-                                    name="nascimento" 
+                                    name="valor" 
                                     control={control}
                                     placeholder="Somente números"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => {
-                                        const formattedValue = applyNascimentoFormat(text);
-                                        setValue("nascimento", formattedValue);
-                                    }}
-                                    maxLength={10} // Nascimento tem 10 caracteres com a máscara
-                                    error={errors.nascimento?.message} 
+                                    error={errors.valor?.message}
                                 />
                             </ColunmContainer>
                         </RowContainer>
-                        <InputForm
-                            name="email"
-                            control={control}
-                            placeholder="Email do cliente"
-                            autoCapitalize="none"
-                            error={errors.email?.message}
-                        />
                     </Fields>
                     <RowContainer>
                         <ColunmContainer>

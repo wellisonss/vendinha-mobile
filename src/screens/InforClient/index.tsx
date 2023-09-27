@@ -3,16 +3,15 @@ import { DebtClientCardProps, DebtClientCard } from "../../components/DebtClient
 import { ClientCardProps } from "../../components/ClientCard";
 import { Modal } from 'react-native';
 import { DebtsRegister } from '../DebtsRegister'
-
 import { Button } from "../../components/Form/Button";
-
 import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields, TextLabel, TextValue, DebtsClientCardsList, ClientCards } from './styles'
 import { useFetch } from "../../hooks/useFetch";
 import { FabButton } from "../../components/Form/FabButton";
 
 export interface DataListProps extends DebtClientCardProps {
   id: string;
-  cliente: Cliente
+  cliente: Cliente;
+  dataPagamento: string
 }
 
 interface Cliente {
@@ -24,40 +23,48 @@ interface Props {
   closeClientInfor: () => void,
 }
 
-export function InforClient({ closeClientInfor, data }: Props) {
-
-  const { data: exampleDebts, isFetching: isFetchingDebts } = useFetch<DataListProps[]>('api/Divida/GetOData?%24count=true');
+// Função personalizada que encapsula a lógica
+function useClientDebts(data: ClientCardProps | null) {
   const [filteredDebts, setFilteredDebts] = useState<{ id: string; valor: number }[]>([]);
-
-
-  const [debtRegisterModalOpen, setDebtRegisterModalOpen] = useState(false);
-
-
-  function handleOpenDebtRegisterModal(){
-    setDebtRegisterModalOpen(false)
-}
-
-function handleCloseDebtRegisterModal(){
-  setDebtRegisterModalOpen(true)
-}
-
+  const { data: clientsDebts, isFetching: isFetchingDebts } = useFetch<DataListProps[]>('api/Divida/GetOData?%24count=true');
 
   useEffect(() => {
-    if (exampleDebts !== null) {
-      const newFilteredDebts = exampleDebts
+    if (clientsDebts !== null) {
+      const newFilteredDebts = clientsDebts
         .filter((debt) => debt.cliente.id == data?.id)
         .map((debt, index) => ({
           id: debt.id,
           valor: typeof debt.valor === 'number' ? debt.valor : parseFloat(debt.valor),
+          dataPagamento: debt.dataPagamento,
           index: index
-        })); // Converter valor para número se for uma string
+        }));
 
-         // Ordenar por id do maior para o menor
       newFilteredDebts.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+
+      console.log(newFilteredDebts);
 
       setFilteredDebts(newFilteredDebts);
     }
-  }, [exampleDebts]);
+  }, [clientsDebts, data]);
+
+  return {
+    filteredDebts,
+    isFetchingDebts,
+  };
+}
+
+export function InforClient({ closeClientInfor, data }: Props) {
+  const { filteredDebts, isFetchingDebts } = useClientDebts(data);
+  const [debtRegisterModalOpen, setDebtRegisterModalOpen] = useState(false);
+
+  function handleOpenDebtRegisterModal() {
+    setDebtRegisterModalOpen(false);
+  }
+
+  function handleCloseDebtRegisterModal() {
+    setDebtRegisterModalOpen(true);
+  }
+
 
   return (
     <Container>
@@ -109,7 +116,7 @@ function handleCloseDebtRegisterModal(){
                     </RowContainer>
                 </Form>
                 <Modal visible={debtRegisterModalOpen}>
-                <DebtsRegister  closeDebtRegister={handleOpenDebtRegisterModal} />
+                <DebtsRegister clienteId={data?.id} closeDebtRegister={handleOpenDebtRegisterModal} />
                 </Modal>
             </Container>
   );

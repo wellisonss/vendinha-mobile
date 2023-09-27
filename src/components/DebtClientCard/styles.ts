@@ -46,7 +46,7 @@ export const TotalValue = styled.Text`
     color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.secundary_text};
 `
 
-export const Icon = styled(Feather)`
+export const IconCheck = styled(Feather)`
 font-size: ${RFValue(16)}px;
 color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.secundary};
 `

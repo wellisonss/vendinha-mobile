@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { ButtonPay } from "../Form/ButtonPay"
 
 import { 
     Container,
@@ -7,15 +8,16 @@ import {
     Amount,
     Total,
     HeaderLabel,
-    HeaderButton,
     TotalDescription,
     TotalValue,
-    Icon
+    IconCheck
  } from "./styles";
 
  export interface DebtClientCardProps {
     valor: string;
     index: number;
+    dataPagamento: string
+    
  }
 
  interface Props {
@@ -30,9 +32,12 @@ export function DebtClientCard({
             <Content>
                 <Amount>
                     <HeaderLabel>Dívida {data.index + 1}</HeaderLabel>
+                    {data.dataPagamento ? (
+                        <IconCheck name='check'/>
+                    ) : (
+                        <ButtonPay title='pagar'/> // Mostra o ícone "search" quando dataPagamento for nulo
+                    )}
                     
-                    <Icon name='check'/>
-                   
                 </Amount>
                 <Total>
                     <TotalDescription>Valor da dívida</TotalDescription>
