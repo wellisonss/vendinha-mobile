@@ -4,8 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 export const Container = styled.View`
 background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.card}; 
 border-radius: 10px; 
-padding: 16px;
-margin: 0 10px 16px 10px;
+padding: 20px;
+margin-bottom: 20px;
 border-color: rgba(221, 221, 221, 0.4);
 border-bottom-width: 3px;
 `

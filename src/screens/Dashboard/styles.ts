@@ -3,8 +3,8 @@ import { DefaultTheme } from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 
 export const Container = styled.View`
-    padding: 0 16px;
     flex: 1;
+    padding: 0 16px;
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.background};
     `;
 
