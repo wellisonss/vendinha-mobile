@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { ButtonPay } from "../Form/ButtonPay"
 
 import { 
@@ -12,12 +12,13 @@ import {
     TotalValue,
     IconCheck
  } from "./styles";
+import { api } from "../../libs/axios";
 
  export interface DebtClientCardProps {
+    id: string;
     valor: string;
     index: number;
     dataPagamento: string
-    
  }
 
  interface Props {
@@ -27,6 +28,27 @@ import {
 export function DebtClientCard({
     data
 }: Props){
+
+
+
+    async function handlePayRegister(){
+
+        try {
+
+            await api.put('/api/Divida', {
+                dividaId: data.id
+            });
+
+            Alert.alert('Pagamento', 'Dívida paga com sucesso');
+            
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Ops', 'Erro ao realizar pagamento');
+        }
+        
+    }
+
+
     return (
         <Container style={[styles.elevation]}>
             <Content>
@@ -35,7 +57,7 @@ export function DebtClientCard({
                     {data.dataPagamento ? (
                         <IconCheck name='check'/>
                     ) : (
-                        <ButtonPay title='pagar'/> // Mostra o ícone "search" quando dataPagamento for nulo
+                        <ButtonPay title='pagar' onPress={handlePayRegister}/> // Mostra o ícone "search" quando dataPagamento for nulo
                     )}
                     
                 </Amount>
