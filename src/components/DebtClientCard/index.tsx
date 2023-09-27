@@ -35,7 +35,9 @@ export function DebtClientCard({
 
         try {
 
-            await api.put('/api/Divida', {
+            console.log("data.id", data.id);
+
+            await api.put('/api/Divida/Pagar', {
                 dividaId: data.id
             });
 
