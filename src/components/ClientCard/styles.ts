@@ -1,7 +1,8 @@
 import styled, { DefaultTheme } from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize'
+import { TouchableOpacity } from 'react-native';
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
 background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.card}; 
 border-radius: 10px; 
 padding: 20px;

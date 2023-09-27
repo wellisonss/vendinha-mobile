@@ -21,18 +21,21 @@ import {
     name: string;
     cpf: string;
     email: string;
+    dataNascimento: string,
     debt: string
  }
 
  interface Props {
-    data: ClientCardProps
+    data: ClientCardProps,
+    onPress: (data: ClientCardProps) => void;
  }
 
 export function ClientCard({
-    data
+    data,
+    onPress
 }: Props){
     return (
-        <Container style={[styles.elevation]}>
+        <Container style={[styles.elevation]} onPress={() => onPress(data)}>
             <Header>
                 <Name>{data.name}</Name>
             </Header>

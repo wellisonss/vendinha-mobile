@@ -9,17 +9,10 @@ import { Button } from "../../components/Form/Button";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields } from './style'
+import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields } from './styles'
 
 interface Props {
     closeClientRegister: () => void
-}
-
-interface FormData  {
-    cpf: string,
-    email: string,
-    nascimento: string,
-    nome: string
 }
 
 const schema = Yup.object().shape({

@@ -21,7 +21,6 @@ export const Header = styled.View`
 
 export const HeaderText = styled.Text`
     color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
-
     font-size: ${RFValue(20)}px;
     font-family: ${({ theme }: { theme: DefaultTheme }) => theme.fonts.bold};
     `;
