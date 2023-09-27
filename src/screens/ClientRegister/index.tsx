@@ -1,12 +1,13 @@
 import React from "react";
-import { TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
-import { useForm } from 'react-hook-form'
-import { Input } from "../../components/Form/Input";
+import { TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { InputForm } from "../../components/Form/InputForm";
+
+import { api } from '../../libs/axios'
 
 import { Button } from "../../components/Form/Button";
 import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields } from './style'
 
@@ -35,15 +36,55 @@ export function ClientRegister({ closeClientRegister }: Props){
         handleSubmit,
         getValues,
         setValue,
+        reset,
         formState: { errors }
     } = useForm({
         resolver: yupResolver(schema)
     });
 
-    function handleRegister(){
-        // getValues obtem os valores do formulário
-        const formValues = getValues();
-        console.log(formValues);
+    async function handleRegister(){
+
+        try {
+            // getValues obtem os valores do formulário
+            const formValues = getValues();
+            // Verifique se 'dataNascimento' está presente nos formValues
+            if (formValues.nascimento) {
+                // Separa a data em partes dia, mês e ano
+                const parts = formValues.nascimento.split('/');
+                
+                // verifica se que existem três elementos separados por "/"
+                if (parts.length === 3) {
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10);
+                const year = parseInt(parts[2], 10);
+                
+                // Verifica se os valores são numéricos válidos
+                if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                    // Cria uma data no formato ISO que é passado pela documentação da API
+                    formValues.nascimento = new Date(year, month - 1, day).toISOString();
+                }
+                }
+            }
+
+            // Remove caracteres não numéricos do CPF
+            formValues.cpf = formValues.cpf.replace(/\D/g, '');
+
+            await api.post('/api/Cliente', {
+                nome: formValues.nome,
+                cpf: formValues.cpf,
+                email: formValues.email,
+                dataNascimento: formValues.nascimento
+            });
+
+            reset();
+
+            Alert.alert('Novo cliente', 'Cliente cadastrado com sucesso');
+            
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Ops', 'Cliente não cadastrado');
+        }
+        
     }
 
     // Função para aplicar a máscara no campo de CPF
@@ -70,18 +111,18 @@ export function ClientRegister({ closeClientRegister }: Props){
                 <Form>
                     <Fields>
                         <InputForm
-                            name="nome" // Deixe como "nome"
+                            name="nome" 
                             control={control}
                             placeholder="Nome do cliente"
                             autoCapitalize="words"
                             autoCorrect={false}
-                            error={errors.nome?.message} // Adicione o erro correspondente
+                            error={errors.nome?.message} 
 
                         />
                         <RowContainer>
                             <ColunmContainer>
                                 <InputForm
-                                    name="cpf" // Deixe como "cpf"
+                                    name="cpf" 
                                     control={control}
                                     placeholder="Somente números"
                                     keyboardType="numeric"
@@ -89,13 +130,13 @@ export function ClientRegister({ closeClientRegister }: Props){
                                         const formattedValue = applyCPFFormat(text);
                                         setValue("cpf", formattedValue);
                                     }}
-                                    maxLength={14} // CPF tem 14 caracteres com a máscara
-                                    error={errors.cpf?.message} // Adicione o erro correspondente
+                                    maxLength={14} 
+                                    error={errors.cpf?.message}
                                 />
                             </ColunmContainer>
                             <ColunmContainer>
                                 <InputForm
-                                    name="nascimento" // Deixe como "nascimento"
+                                    name="nascimento" 
                                     control={control}
                                     placeholder="Somente números"
                                     keyboardType="numeric"
@@ -104,16 +145,16 @@ export function ClientRegister({ closeClientRegister }: Props){
                                         setValue("nascimento", formattedValue);
                                     }}
                                     maxLength={10} // Nascimento tem 10 caracteres com a máscara
-                                    error={errors.nascimento?.message} // Adicione o erro correspondente
+                                    error={errors.nascimento?.message} 
                                 />
                             </ColunmContainer>
                         </RowContainer>
                         <InputForm
-                            name="email" // Deixe como "email"
+                            name="email"
                             control={control}
                             placeholder="Email do cliente"
                             autoCapitalize="none"
-                            error={errors.email?.message} // Adicione o erro correspondente
+                            error={errors.email?.message}
                         />
                     </Fields>
                     <RowContainer>
