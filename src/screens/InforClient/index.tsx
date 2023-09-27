@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { DebtClientCardProps, DebtClientCard } from "../../components/DebtClientCard";
 import { ClientCardProps } from "../../components/ClientCard";
+import { Modal } from 'react-native';
+import { DebtsRegister } from '../DebtsRegister'
 
 import { Button } from "../../components/Form/Button";
 
 import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields, TextLabel, TextValue, DebtsClientCardsList, ClientCards } from './styles'
 import { useFetch } from "../../hooks/useFetch";
+import { FabButton } from "../../components/Form/FabButton";
 
 export interface DataListProps extends DebtClientCardProps {
   id: string;
@@ -18,7 +21,7 @@ interface Cliente {
 
 interface Props {
   data: ClientCardProps | null,
-  closeClientInfor: () => void
+  closeClientInfor: () => void,
 }
 
 export function InforClient({ closeClientInfor, data }: Props) {
@@ -26,7 +29,18 @@ export function InforClient({ closeClientInfor, data }: Props) {
   const { data: exampleDebts, isFetching: isFetchingDebts } = useFetch<DataListProps[]>('api/Divida/GetOData?%24count=true');
   const [filteredDebts, setFilteredDebts] = useState<{ id: string; valor: number }[]>([]);
 
-  console.log("exampleDebts", exampleDebts);
+
+  const [debtRegisterModalOpen, setDebtRegisterModalOpen] = useState(false);
+
+
+  function handleOpenDebtRegisterModal(){
+    setDebtRegisterModalOpen(false)
+}
+
+function handleCloseDebtRegisterModal(){
+  setDebtRegisterModalOpen(true)
+}
+
 
   useEffect(() => {
     if (exampleDebts !== null) {
@@ -54,7 +68,7 @@ export function InforClient({ closeClientInfor, data }: Props) {
                 <Form>
                     <Fields>
                         <TextLabel>Nome</TextLabel>
-                        <TextValue>{data?.id}</TextValue>
+                        <TextValue>{data?.name}</TextValue>
                         <RowContainer>
                             <ColunmContainer>
                               <TextLabel>CPF</TextLabel>
@@ -62,7 +76,7 @@ export function InforClient({ closeClientInfor, data }: Props) {
                             </ColunmContainer>
                             <ColunmContainer>
                               <TextLabel>Nascimento</TextLabel>
-                              <TextValue>{data?.dataNascimento}</TextValue>
+                              <TextValue>{data?.dataNascimento.split('T')[0]}</TextValue>
                             </ColunmContainer>
                         </RowContainer>
                           <TextLabel>Email</TextLabel>
@@ -80,6 +94,8 @@ export function InforClient({ closeClientInfor, data }: Props) {
                       />
                     </ClientCards>
 
+                    <FabButton onPress={handleCloseDebtRegisterModal}/>
+
                     <RowContainer>
                         <ColunmContainer>
                             <Button title="Cancelar" type="cancel" onPress={closeClientInfor}/>
@@ -92,6 +108,9 @@ export function InforClient({ closeClientInfor, data }: Props) {
                         </ColunmContainer>
                     </RowContainer>
                 </Form>
+                <Modal visible={debtRegisterModalOpen}>
+                <DebtsRegister  closeDebtRegister={handleOpenDebtRegisterModal} />
+                </Modal>
             </Container>
   );
 }
