@@ -3,10 +3,10 @@ import { DebtClientCardProps, DebtClientCard } from "../../components/DebtClient
 import { ClientCardProps } from "../../components/ClientCard";
 import { Modal } from 'react-native';
 import { DebtsRegister } from '../DebtsRegister'
-import { Button } from "../../components/Form/Button";
-import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields, TextLabel, TextValue, DebtsClientCardsList, ClientCards } from './styles'
+import { Container, Header, Title, Form, RowContainer, ColunmContainer, Fields, TextLabel, TextValue, DebtsClientCardsList, ClientCards, ButtonReload, HeaderDebt, ContainerReload } from './styles'
 import { useFetch } from "../../hooks/useFetch";
 import { FabButton } from "../../components/Form/FabButton";
+import { Button } from "../../components/Form/Button";
 
 export interface DataListProps extends DebtClientCardProps {
   id: string;
@@ -65,6 +65,10 @@ export function InforClient({ closeClientInfor, data }: Props) {
     setDebtRegisterModalOpen(true);
   }
 
+  const handleReloadData = () => {
+    useClientDebts(data);
+  };
+
 
   return (
     <Container>
@@ -89,6 +93,13 @@ export function InforClient({ closeClientInfor, data }: Props) {
                           <TextLabel>Email</TextLabel>
                           <TextValue>{data?.email}</TextValue>
                     </Fields>
+
+                    <RowContainer>
+                      <HeaderDebt>Dívidas</HeaderDebt>
+                      <ContainerReload onPress={()=> {console.log("chamar função handleReloadData")}}>
+                        <ButtonReload name='refresh-ccw'/>
+                      </ContainerReload>
+                    </RowContainer>
 
 
                     <ClientCards>

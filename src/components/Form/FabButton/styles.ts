@@ -17,6 +17,19 @@ export const Container = styled(TouchableOpacity)`
   right: 16px; /* Distância a partir da parte direita da tela */
 `;
 
+export const Button = styled(TouchableOpacity)`
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
+
+  width: 48px; /* Largura do botão */
+  height: 48px; /* Altura do botão */
+  border-radius: 30px; /* Bordas arredondadas para torná-lo um botão circular */
+  justify-content: center; /* Centraliza verticalmente o conteúdo */
+  align-items: center; /* Centraliza horizontalmente o conteúdo */
+  position: absolute; /* Posicionamento absoluto para que o botão possa flutuar na tela */
+  bottom: 80px; /* Distância a partir da parte inferior da tela */
+  right: 16px; /* Distância a partir da parte direita da tela */
+`;
+
 export const Icon = styled(Feather)`
 font-size: ${RFValue(20)}px;
 color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.card};

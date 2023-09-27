@@ -1,6 +1,8 @@
 import styled, { DefaultTheme } from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-import { FlatList } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons'
+
 
 import { DataListProps } from '.';
 
@@ -73,4 +75,22 @@ export const DebtsClientCardsList = styled(
 export const ClientCards = styled.View`
 flex: 1;
 padding: 16px 0;
+`;
+
+
+export const HeaderDebt = styled.Text`
+font-size: ${RFValue(14)}px;
+margin: 10px 0;
+
+font-family: ${({ theme }: { theme: DefaultTheme }) => theme.fonts.bold};
+color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary}; 
+
+`;
+
+export const ButtonReload = styled(Feather)`
+font-size: ${RFValue(20)}px;
+color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
+`
+
+export const ContainerReload = styled(TouchableOpacity)`
 `;
